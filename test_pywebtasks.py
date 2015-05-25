@@ -5,7 +5,7 @@
 test_pywebtasks
 ----------------------------------
 
-Tests for `pywebtasks` module.
+Tests for `webtasks` module.
 """
 
 import os
@@ -16,7 +16,7 @@ import requests
 
 from pywebtasks import compat
 from pywebtasks import webtasks
-from pywebtasks.webtasks import CSharpRunner
+from pywebtasks.langs import CSharp
 from pywebtasks.tokens import create_token, revoke_token
 
 if compat.is_py3:
@@ -38,7 +38,7 @@ class WebtaskTokenTestCase(unittest.TestCase):
         pass
 
     def test_webtask_token_not_empty(self):
-        assert WEBTASK_TOKEN != '', 'You must set the WEBTASK_TOKEN env variable'
+        assert WEBTASK_TOKEN != '', 'The WEBTASK_TOKEN env variable is not set.'
 
     def test_create_token(self):
         webtask_token = create_token(WEBTASK_TOKEN)
@@ -72,6 +72,16 @@ class WebtaskTestCase(unittest.TestCase):
         assert req.status_code == 200
         assert 'Hello, JS world!' in req.content.decode('utf-8')
 
+    def test_run_csharp_code_from_string(self):
+        csharp_code = '''async (dynamic context) => {
+                             return "Hello, C# world!";
+                         }
+                      '''
+        req = webtasks.run(csharp_code, WEBTASK_TOKEN, CSharp)
+
+        assert req.status_code == 200
+        assert 'Hello, C# world!' in req.content.decode('utf-8')
+
     def test_run_js_code_from_file(self):
         js_code_filepath = os.path.join(TEST_CODE_DIR, 'javascript.js')
         req = webtasks.run_file(js_code_filepath, WEBTASK_TOKEN)
@@ -79,21 +89,11 @@ class WebtaskTestCase(unittest.TestCase):
         assert req.status_code == 200
         assert 'Hello, JS world!' in req.content.decode('utf-8')
 
-    def test_run_csharp_code_from_string(self):
-        csharp_code = '''async (dynamic context) => {
-                             return "Hello, C# world!";
-                         }
-                      '''
-        req = webtasks.run(csharp_code, WEBTASK_TOKEN, CSharpRunner)
-
-        assert req.status_code == 200
-        assert 'Hello, C# world!' in req.content.decode('utf-8')
-
     def test_run_csharp_code_from_file(self):
         csharp_code_filepath = os.path.join(TEST_CODE_DIR, 'csharp.cs')
         req = webtasks.run_file(csharp_code_filepath,
                                 WEBTASK_TOKEN,
-                                CSharpRunner)
+                                CSharp)
 
         assert req.status_code == 200
         assert 'Hello, C# world!' in req.content.decode('utf-8')

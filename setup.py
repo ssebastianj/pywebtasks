@@ -1,15 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import re
-
+import sys
 from codecs import open
 
 try:
-    from setuptools import setup
+    from setuptools import setup, Command
 except ImportError:
-    from distutils.core import setup
+    from distutils.core import setup, Command
 
+if sys.argv[-1] == 'publish':
+    os.system('python setup.py sdist upload')
+    sys.exit()
 
 version = ''
 with open('pywebtasks/__init__.py', 'r', 'utf-8') as fd:
@@ -26,7 +30,25 @@ with open('HISTORY.rst', 'r', 'utf-8') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
 requirements = []
-test_requirements = []
+test_requirements = [
+    'pytest',
+    'pytest-cov',
+]
+
+
+class PyTest(Command):
+    user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
+
+    def initialize_options(self):
+        self.pytest_args = []
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        import pytest
+        errno = pytest.main(self.pytest_args)
+        sys.exit(errno)
 
 setup(
     name='pywebtasks',
@@ -59,6 +81,6 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
     ],
-    test_suite='test_pywebtasks.py',
+    cmdclass={'test': PyTest},
     tests_require=test_requirements
 )
