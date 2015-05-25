@@ -1,0 +1,25 @@
+actionid: py34
+msg: installpkg
+cmdargs: [local('/home/sebastian/Development/pywebtasks/.tox/py34/bin/pip'), 'install', '/home/sebastian/Development/pywebtasks/.tox/dist/pywebtasks-0.0.2.zip']
+env: {'VIRTUAL_ENV': '/home/sebastian/Development/pywebtasks/.tox/py34', 'TMPDIR': '/tmp/user/1000', 'PYTHONHASHSEED': '3671707128', 'PYTHONWARNINGS': 'all', 'PATH': '/home/sebastian/Development/pywebtasks/.tox/py34/bin:/home/sebastian/Development/.virtualenvs/pywebtasks/bin:/home/sebastian/Development/go/bin:/home/sebastian/.gvm/pkgsets/go1.4.2/global/bin:/home/sebastian/.gvm/gos/go1.4.2/bin:/home/sebastian/.gvm/pkgsets/go1.4.2/global/overlay/bin:/home/sebastian/.gvm/bin:/home/sebastian/.gvm/bin:/home/sebastian/.pyenv/shims:/home/sebastian/.pyenv/bin:/home/sebastian/.cabal/bin:/usr/local/heroku/bin:/opt/texbin:/home/sebastian/Android/sdk/platform-tools:/home/sebastian/Android/sdk/tools:/home/sebastian/npm/bin:/home/sebastian/.rbenv/plugins/ruby-build/bin:/home/sebastian/.rbenv/shims:/home/sebastian/.rbenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/sebastian/npm/bin'}
+
+Processing ./.tox/dist/pywebtasks-0.0.2.zip
+    Complete output from command python setup.py egg_info:
+    /home/sebastian/Development/pywebtasks/.tox/py34/lib/python3.4/imp.py:32: PendingDeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+      PendingDeprecationWarning)
+    /tmp/user/1000/pip-v6ii3qfs-build/setup.py:18: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/user/1000/pip-v6ii3qfs-build/setup.py' mode='r' encoding='utf-8'>
+    
+    Traceback (most recent call last):
+      File "<string>", line 20, in <module>
+      File "/tmp/user/1000/pip-v6ii3qfs-build/setup.py", line 17, in <module>
+        fd.read(), re.MULTILINE).group(1)
+      File "/home/sebastian/Development/pywebtasks/.tox/py34/lib/python3.4/encodings/ascii.py", line 26, in decode
+        return codecs.ascii_decode(input, self.errors)[0]
+    UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 113: ordinal not in range(128)
+    
+    ----------------------------------------
+/home/sebastian/Development/pywebtasks/.tox/py34/lib/python3.4/imp.py:32: PendingDeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  PendingDeprecationWarning)
+Command "python setup.py egg_info" failed with error code 1 in /tmp/user/1000/pip-v6ii3qfs-build
+/home/sebastian/Development/pywebtasks/.tox/py34/lib/python3.4/site-packages/pip/basecommand.py:237: ResourceWarning: unclosed file <_io.BufferedReader name=4>
+  return ERROR

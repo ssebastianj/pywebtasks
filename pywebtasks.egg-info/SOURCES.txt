@@ -1,0 +1,15 @@
+HISTORY.rst
+LICENSE
+MANIFEST.in
+README.rst
+setup.cfg
+setup.py
+pywebtasks/__init__.py
+pywebtasks/compat.py
+pywebtasks/tokens.py
+pywebtasks/webtasks.py
+pywebtasks.egg-info/PKG-INFO
+pywebtasks.egg-info/SOURCES.txt
+pywebtasks.egg-info/dependency_links.txt
+pywebtasks.egg-info/not-zip-safe
+pywebtasks.egg-info/top_level.txt

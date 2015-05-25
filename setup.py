@@ -3,13 +3,16 @@
 
 import re
 
+from codecs import open
+
 try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
 
+
 version = ''
-with open('requests/__init__.py', 'r') as fd:
+with open('pywebtasks/__init__.py', 'r') as fd:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
                         fd.read(), re.MULTILINE).group(1)
 
@@ -22,13 +25,8 @@ with open('README.rst', 'r', 'utf-8') as readme_file:
 with open('HISTORY.rst', 'r', 'utf-8') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
-requirements = [
-    # TODO: put package requirements here
-]
-
-test_requirements = [
-    'pytest~=2.7.1',
-]
+requirements = []
+test_requirements = []
 
 setup(
     name='pywebtasks',
@@ -61,6 +59,6 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
     ],
-    test_suite='tests',
+    test_suite='test_pywebtasks.py',
     tests_require=test_requirements
 )
