@@ -3,16 +3,15 @@
 
 """Tests for PyWebtasks"""
 
-import json
 import os
-import time
 import unittest
 
 import pytest
 import requests
 
-from pywebtasks import webtasks
 from pywebtasks import compat
+from pywebtasks import webtasks
+from pywebtasks.webtasks import CSharpRunner
 from pywebtasks.tokens import create_token, revoke_token
 
 if compat.is_py3:
@@ -23,8 +22,7 @@ else:
         return s.decode('unicode-escape')
 
 TEST_CODE_DIR = os.path.abspath(os.path.join('test_code'))
-
-WEBTASK_AUTH_TOKEN = os.environ.get('WEBTASK_AUTH_TOKEN', '')
+WEBTASK_TOKEN = os.environ.get('WEBTASK_TOKEN', '')
 
 
 class WebtaskTokenTestCase(unittest.TestCase):
@@ -35,16 +33,16 @@ class WebtaskTokenTestCase(unittest.TestCase):
         pass
 
     def test_webtask_token_not_empty(self):
-        assert WEBTASK_AUTH_TOKEN != '', 'You must set the WEBTASK_AUTH_TOKEN env variable'
+        assert WEBTASK_TOKEN != '', 'You must set the WEBTASK_TOKEN env variable'
 
     def test_create_token(self):
-        webtask_token = create_token(WEBTASK_AUTH_TOKEN)
+        webtask_token = create_token(WEBTASK_TOKEN)
         assert isinstance(webtask_token, str)
-        assert webtask_token.split('.')[0] == WEBTASK_AUTH_TOKEN.split('.')[0]
+        assert webtask_token.split('.')[0] == WEBTASK_TOKEN.split('.')[0]
 
     def test_revoke_token(self):
-        webtask_token = create_token(WEBTASK_AUTH_TOKEN)
-        status_code = revoke_token(WEBTASK_AUTH_TOKEN, webtask_token)
+        webtask_token = create_token(WEBTASK_TOKEN)
+        status_code = revoke_token(WEBTASK_TOKEN, webtask_token)
         assert status_code == requests.codes.ok
 
 
@@ -57,30 +55,41 @@ class WebtaskTestCase(unittest.TestCase):
 
     def test_entry_points(self):
         webtasks.run
+        webtasks.run_file
 
-    def test_run_code_js_code_ok(self):
-        js_code = ''
-        with open(os.path.join(TEST_CODE_DIR, 'javascript.js')) as f:
-            js_code = f.read()
+    def test_run_js_code_from_string(self):
+        js_code = '''return function (context, cb) {
+                        cb(null, "Hello, JS world!");
+                     };
+                  '''
+        req = webtasks.run(js_code, WEBTASK_TOKEN)
 
-        req = webtasks.run(js_code, WEBTASK_AUTH_TOKEN)
         assert req.status_code == 200
         assert 'Hello, JS world!' in req.content.decode('utf-8')
 
-    def test_run_code_csharp_code_ok(self):
-        csharp_code = ''
-        with open(os.path.join(TEST_CODE_DIR, 'csharp.cs')) as f:
-            csharp_code = f.read()
+    def test_run_js_code_from_file(self):
+        js_code_filepath = os.path.join(TEST_CODE_DIR, 'javascript.js')
+        req = webtasks.run_file(js_code_filepath, WEBTASK_TOKEN)
 
-        js_code = '''
-            return function (context, cb) {
-                require('edge').func(function () {
-                    /* %s */
-                })(null, cb);
-            }
-            ''' % csharp_code
+        assert req.status_code == 200
+        assert 'Hello, JS world!' in req.content.decode('utf-8')
 
-        req = webtasks.run(js_code, WEBTASK_AUTH_TOKEN)
+    def test_run_csharp_code_from_string(self):
+        csharp_code = '''async (dynamic context) => {
+                             return "Hello, C# world!";
+                         }
+                      '''
+        req = webtasks.run(csharp_code, WEBTASK_TOKEN, CSharpRunner)
+
+        assert req.status_code == 200
+        assert 'Hello, C# world!' in req.content.decode('utf-8')
+
+    def test_run_csharp_code_from_file(self):
+        csharp_code_filepath = os.path.join(TEST_CODE_DIR, 'csharp.cs')
+        req = webtasks.run_file(csharp_code_filepath,
+                                WEBTASK_TOKEN,
+                                CSharpRunner)
+
         assert req.status_code == 200
         assert 'Hello, C# world!' in req.content.decode('utf-8')
 
