@@ -2,7 +2,7 @@
 
 
 class BaseLanguage(object):
-    def __init__(self, name, extension='', template='%s'):
+    def __init__(self, name, extension='', template='{0}'):
         self.name = name
         self.extension = extension
         self.template = template
@@ -16,10 +16,10 @@ class JavaScript(BaseLanguage):
 class CSharp(BaseLanguage):
     def __init__(self):
         template = '''
-            return function (cb) {
-                require('edge').func(function () {/*
-                %s
-                */})(null, cb);
-            }
+            return function (cb) {{
+                require('edge').func(function () {{/*
+                {0}
+                */}})(null, cb);
+            }}
         '''
         super(CSharp, self).__init__('csharp', 'cs', template)
