@@ -8,7 +8,11 @@ python:
   - "pypy"
 
 install:
-    - pip install -r requirements-tests.txt --use-mirrors
+    - pip install -r requirements.txt
+    - pip install -r requirements-tests.txt
 
 script:
     - python setup.py test
+
+notifications:
+  email: false
