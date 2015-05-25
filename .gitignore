@@ -10,13 +10,12 @@ violations.pyflakes.txt
 cover/
 build/
 docs/_build
-requests.egg-info/
+pywebtasks.egg-info/
 *.pyc
 *.swp
 *.egg
 env/
-
-.workon
+.tox/
 
 t.py
 
