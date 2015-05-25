@@ -1,7 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""Tests for PyWebtasks"""
+"""
+test_pywebtasks
+----------------------------------
+
+Tests for `pywebtasks` module.
+"""
 
 import os
 import unittest
