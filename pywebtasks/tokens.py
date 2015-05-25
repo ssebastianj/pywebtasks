@@ -4,45 +4,43 @@ import json
 import requests
 
 
+def get_token_default_properties():
+    token_properties = {}
+    token_properties['ten'] = 'wt-ssebastianj-gmail_com-0'
+    token_properties['nbf'] = 0
+    token_properties['exp'] = 0
+    token_properties['pb'] = 0
+    token_properties['mb'] = 0
+    token_properties['dp'] = 1
+    token_properties['dr'] = 0
+    token_properties['url'] = ''
+    token_properties['pctx'] = {}
+    token_properties['ectx'] = {}
+    token_properties['ls'] = 0
+    token_properties['lm'] = 0
+    token_properties['lh'] = 0
+    token_properties['ld'] = 0
+    token_properties['lw'] = 0
+    token_properties['lo'] = 0
+    token_properties['lts'] = 0
+    token_properties['ltm'] = 0
+    token_properties['lth'] = 0
+    token_properties['ltd'] = 0
+    token_properties['ltw'] = 0
+    token_properties['lto'] = 0
+    return token_properties
+
+
 def create_token(auth_token, container_name='', url='', notbefore_time=None,
                  notafter_time=None, process_body=False, merge_body=False,
                  max_depth=1, revoke_itself=False, protected_properties=None,
                  encrypted_properties=None, container_limits=None,
                  token_limits=None, **kwargs):
 
-    properties = {}
-    properties['ten'] = container_name
-    properties['nbf'] = notbefore_time
-    properties['exp'] = notafter_time
-    properties['pb'] = int(process_body)
-    properties['mb'] = int(merge_body)
-    properties['dp'] = max_depth
-    properties['dr'] = int(revoke_itself)
-    properties['url'] = url
+    properties = get_token_default_properties()
 
-    if protected_properties is None:
-        protected_properties = {}
-    properties['pctx'] = protected_properties
 
-    if encrypted_properties is None:
-        encrypted_properties = {}
-    properties['ectx'] = encrypted_properties
 
-    if container_limits is not None:
-        properties['ls'] = container_limits.get('second')
-        properties['lm'] = container_limits.get('minute')
-        properties['lh'] = container_limits.get('hour')
-        properties['ld'] = container_limits.get('day')
-        properties['lw'] = container_limits.get('week')
-        properties['lo'] = container_limits.get('month')
-
-    if token_limits is not None:
-        properties['lts'] = token_limits.get('second')
-        properties['ltm'] = token_limits.get('minute')
-        properties['lth'] = token_limits.get('hour')
-        properties['ltd'] = token_limits.get('day')
-        properties['ltw'] = token_limits.get('week')
-        properties['lto'] = token_limits.get('month')
 
     url = 'https://webtask.it.auth0.com/api/tokens/issue'
     headers = {
@@ -51,7 +49,7 @@ def create_token(auth_token, container_name='', url='', notbefore_time=None,
     }
 
     req = requests.post(url, data=json.dumps(properties), headers=headers)
-    return req.content
+    return req.content.decode('utf8')
 
 
 def revoke_token(auth_token, token, **kwargs):
@@ -70,4 +68,5 @@ def revoke_token(auth_token, token, **kwargs):
 
     payload = {'token': token}
     req = requests.post(url, data=json.dumps(payload), headers=headers)
+    raise ValueError(req.request.body)
     return req.status_code
