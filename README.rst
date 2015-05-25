@@ -8,4 +8,4 @@ PyWebtasks: A Python wrapper for Auth0's Webtasks API
         :target: https://pypi.python.org/pypi/pywebtasks
 
 .. image:: http://img.shields.io/travis/pywebtasks/pywebtasks.png
-   :target: https://travis-ci.org/pywebtasks/pywebtasks
+   :target: https://travis-ci.org/ssebastianj/pywebtasks
