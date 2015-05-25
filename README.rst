@@ -1,5 +1,5 @@
-PyWebtasks: A wrapper for Auth0's Webtasks API
-============================================
+PyWebtasks: A Python wrapper for Auth0's Webtasks API
+=====================================================
 
 .. image:: https://img.shields.io/pypi/v/pywebtasks.svg
     :target: https://pypi.python.org/pypi/pywebtasks
