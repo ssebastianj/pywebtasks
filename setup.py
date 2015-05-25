@@ -12,7 +12,7 @@ except ImportError:
 
 
 version = ''
-with open('pywebtasks/__init__.py', 'r') as fd:
+with open('pywebtasks/__init__.py', 'r', 'utf-8') as fd:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
                         fd.read(), re.MULTILINE).group(1)
 
