@@ -4,11 +4,11 @@ import json
 import requests
 
 
-def create_token(auth_token, container_name='', url='', notbefore_time=None,
-                 notafter_time=None, process_body=False, merge_body=False,
-                 max_depth=1, revoke_itself=False, protected_properties=None,
-                 encrypted_properties=None, container_limits=None,
-                 token_limits=None, **kwargs):
+def create(auth_token, container_name='', url='', notbefore_time=None,
+           notafter_time=None, process_body=False, merge_body=False,
+           max_depth=1, revoke_itself=False, protected_properties=None,
+           encrypted_properties=None, container_limits=None,
+           token_limits=None, **kwargs):
 
     properties = {}
 
@@ -22,7 +22,7 @@ def create_token(auth_token, container_name='', url='', notbefore_time=None,
     return req.content.decode('utf8')
 
 
-def revoke_token(auth_token, token, **kwargs):
+def revoke(auth_token, token, **kwargs):
     """Revoke token.
 
     :param auth_token:

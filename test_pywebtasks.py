@@ -14,10 +14,10 @@ import unittest
 import pytest
 import requests
 
-from pywebtasks import webtasks
+import pywebtasks
+from pywebtasks import tokens
 from pywebtasks.compat import str, is_py3
 from pywebtasks.langs import CSharp
-from pywebtasks.tokens import create_token, revoke_token
 
 if is_py3:
     def u(s):
@@ -46,13 +46,13 @@ class WebtaskTokenTestCase(unittest.TestCase):
         assert WEBTASK_CONTAINERS, 'The WEBTASK_CONTAINERS env variable is not set.'
 
     def test_create_token(self):
-        webtask_token = create_token(WEBTASK_TOKEN)
+        webtask_token = tokens.create(WEBTASK_TOKEN)
         assert isinstance(webtask_token, str)
         assert webtask_token.split('.')[0] == WEBTASK_TOKEN.split('.')[0]
 
     def test_revoke_token(self):
-        webtask_token = create_token(WEBTASK_TOKEN)
-        status_code = revoke_token(WEBTASK_TOKEN, webtask_token)
+        webtask_token = tokens.create(WEBTASK_TOKEN)
+        status_code = tokens.revoke(WEBTASK_TOKEN, webtask_token)
         assert status_code == requests.codes.ok
 
 
@@ -64,17 +64,17 @@ class WebtaskTestCase(unittest.TestCase):
         pass
 
     def test_entry_points(self):
-        webtasks.run
-        webtasks.run_file
+        pywebtasks.run
+        pywebtasks.run_file
 
     def test_run_js_code_from_string(self):
         js_code = '''return function (context, cb) {
                         cb(null, "Hello, JS world!");
                      };
                   '''
-        req = webtasks.run(js_code,
-                           WEBTASK_CONTAINERS[0],
-                           WEBTASK_TOKEN)
+        req = pywebtasks.run(js_code,
+                             WEBTASK_CONTAINERS[0],
+                             WEBTASK_TOKEN)
 
         assert req.status_code == 200
         assert 'Hello, JS world!' in req.content.decode('utf-8')
@@ -84,29 +84,29 @@ class WebtaskTestCase(unittest.TestCase):
                              return "Hello, C# world!";
                          }
                       '''
-        req = webtasks.run(csharp_code,
-                           WEBTASK_CONTAINERS[0],
-                           WEBTASK_TOKEN,
-                           lang=CSharp)
+        req = pywebtasks.webtasks.run(csharp_code,
+                                      WEBTASK_CONTAINERS[0],
+                                      WEBTASK_TOKEN,
+                                      lang=CSharp)
 
         assert req.status_code == 200
         assert 'Hello, C# world!' in req.content.decode('utf-8')
 
     def test_run_js_code_from_file(self):
         js_code_filepath = os.path.join(TEST_CODE_DIR, 'javascript.js')
-        req = webtasks.run_file(js_code_filepath,
-                                WEBTASK_CONTAINERS[0],
-                                WEBTASK_TOKEN)
+        req = pywebtasks.webtasks.run_file(js_code_filepath,
+                                           WEBTASK_CONTAINERS[0],
+                                           WEBTASK_TOKEN)
 
         assert req.status_code == 200
         assert 'Hello, JS world!' in req.content.decode('utf-8')
 
     def test_run_csharp_code_from_file(self):
         csharp_code_filepath = os.path.join(TEST_CODE_DIR, 'csharp.cs')
-        req = webtasks.run_file(csharp_code_filepath,
-                                WEBTASK_CONTAINERS[0],
-                                WEBTASK_TOKEN,
-                                lang=CSharp)
+        req = pywebtasks.webtasks.run_file(csharp_code_filepath,
+                                           WEBTASK_CONTAINERS[0],
+                                           WEBTASK_TOKEN,
+                                           lang=CSharp)
 
         assert req.status_code == 200
         assert 'Hello, C# world!' in req.content.decode('utf-8')
