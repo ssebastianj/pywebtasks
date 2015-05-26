@@ -41,6 +41,7 @@ Run a webtask from a string:
 
 .. code-block:: python
 
+    >>> import pywebtasks
     >>> js_code = '''return function (context, cb) {
                        cb(null, "Hello, JS world!");
                      };
