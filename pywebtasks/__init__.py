@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 __title__ = 'pywebtask'
-__version__ = '0.1.3'
-__build__ = 0x000103
+__version__ = '0.1.6'
+__build__ = 0x000106
 __author__ = 'Sebastián José Seba'
 __license__ = 'MIT'
-__copyright__ = 'Copyright 2015 Sebastián José Seba'
+__copyright__ = 'Copyright 2016 Sebastián José Seba'
 
 
 from .webtasks import run, run_file
