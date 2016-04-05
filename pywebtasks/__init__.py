@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 __title__ = 'pywebtask'
-__version__ = '0.1.6'
-__build__ = 0x000106
+__version__ = '0.1.8'
+__build__ = 0x000108
 __author__ = 'Sebastián José Seba'
 __license__ = 'MIT'
 __copyright__ = 'Copyright 2016 Sebastián José Seba'
