@@ -30,11 +30,12 @@ with open('HISTORY.rst', 'r', 'utf-8') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
 requirements = [
-    'requests~=2.7.0',
+    'requests~=2.20.0',
 ]
 test_requirements = [
     'pytest',
     'pytest-cov',
+    'tox',
 ]
 
 
